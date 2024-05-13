@@ -34,7 +34,7 @@ class ot_device:
             res.replace(command.decode(), "")
             .replace(">", "")
             .replace("\r", "")
-            .replace("\n", ' ')
+            .replace("\n", " ")
         )
 
 
@@ -63,7 +63,7 @@ def handle_command(command):
             response_dict[response].append(device.port)
         except:
             response_dict[response] = [device.port]
-        return response_dict
+    return response_dict
 
 
 def interface():
