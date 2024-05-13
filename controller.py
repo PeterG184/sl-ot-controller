@@ -30,7 +30,12 @@ class ot_device:
     def get_output(self, command):
         res = self.serial.read_all()
         res = res.decode()
-        return command.decode() + ": " + res.replace(command.decode(), '').replace('>', '').replace('\r', '').replace('\n', ' ')
+        return (
+            res.replace(command.decode(), "")
+            .replace(">", "")
+            .replace("\r", "")
+            .replace("\n", ' ')
+        )
 
 
 def get_ports():
@@ -49,10 +54,26 @@ def link_devices():
             devices.append(device)
 
 
+def handle_command(command):
+    response_dict = {}
+    for device in devices:
+        response = device.run_command(command)
+        # Add response to dictionary, where setup is {response: [device ids]}
+        try:
+            response_dict[response].append(device.port)
+        except:
+            response_dict[response] = [device.port]
+        return response_dict
+
+
+def interface():
+    while True:
+        command = input(">")
+        response = handle_command(command.encode())
+        print(response)
+
+
 if __name__ == "__main__":
     available_ports = get_ports()
     link_devices()
-    for device in devices:
-        print(device.run_command(b"ifconfig up"))
-        print(device.run_command(b"thread start"))
-        print(device.run_command(b"state"))
+    interface()
