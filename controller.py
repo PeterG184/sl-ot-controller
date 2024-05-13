@@ -1,6 +1,5 @@
 import serial
 import time
-import serial.serialutil
 import serial.tools.list_ports as ports_list
 
 # List of available ports
@@ -80,7 +79,8 @@ def interface():
     while True:
         command = input(">")
         response = handle_command(command.encode())
-        print(response)
+        for res in response:
+            print(res + " | " + (' ').join(response[res]))
 
 
 if __name__ == "__main__":
