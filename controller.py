@@ -15,12 +15,12 @@ class ot_device:
             self.port, 38400, timeout=0, parity=serial.PARITY_EVEN
         )
 
-    # Open port if not open
+    # Safely open port only if not open
     def open_port(self):
         if not self.serial.is_open:
             self.serial.open()
 
-    # Close port if open
+    # Safely close port only if open
     def close_port(self):
         if self.serial.is_open:
             self.serial.close()
