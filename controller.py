@@ -77,10 +77,10 @@ def handle_command(command):
 # CLI interface loop
 def interface():
     while True:
-        command = input(">")
+        command = input("> ")
         response = handle_command(command.encode())
         for res in response:
-            print(res + " | " + (' ').join(response[res]))
+            print(res + " | " + (" ").join(response[res]))
 
 
 if __name__ == "__main__":
