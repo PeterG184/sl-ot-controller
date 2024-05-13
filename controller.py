@@ -25,11 +25,12 @@ class ot_device:
     def run_command(self, command):
         self.serial.write(command + b"\r\n")
         time.sleep(0.1)
-        return self.get_output()
+        return self.get_output(command)
 
-    def get_output(self):
+    def get_output(self, command):
         res = self.serial.read_all()
-        return res
+        res = res.decode()
+        return command.decode() + ": " + res.replace(command.decode(), '').replace('>', '').replace('\r', '').replace('\n', ' ')
 
 
 def get_ports():
