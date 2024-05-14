@@ -41,13 +41,23 @@ class ot_device:
             .replace("\r", "")
             .replace("\n", " ")
         )
+        
+    def thread_test(self):
+        try:
+            self.serial.write("thread version \r\n".encode())
+            time.sleep(0.01)
+            self.serial.read_all()
+            res = res.decode()
+            return True
+        except:
+            return False
 
 
 # Get available COM ports
 def get_ports():
     ports_l = list(ports_list.comports())
     if len(ports_l):
-        print("\n" + str(len(ports_l)) + " available devices found:")
+        print("\n" + str(len(ports_l)) + " serial devices found:")
         for p in ports_l:
             print(p)
     return ports_l
@@ -58,7 +68,8 @@ def link_devices():
     for port in available_ports:
         if port.name[:3].lower() == "com":
             device = ot_device(port.name)
-            devices.append(device)
+            if device.thread_test():            
+                devices.append(device)
 
 
 # Execute command on each device
@@ -86,4 +97,7 @@ def interface():
 if __name__ == "__main__":
     available_ports = get_ports()
     link_devices()
+    print(str(len(devices)) + " thread enabled devices found:")
+    for device in devices:
+        print(device.port)
     interface()
