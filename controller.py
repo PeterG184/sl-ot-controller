@@ -68,8 +68,8 @@ def link_devices():
     for port in available_ports:
         if port.name[:3].lower() == "com":
             device = ot_device(port.name)
-            if device.thread_test():
-                devices.append(device)
+            # if device.thread_test():
+            devices.append(device)
 
 
 # Execute command on each device
