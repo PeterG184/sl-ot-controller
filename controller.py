@@ -41,7 +41,7 @@ class ot_device:
             .replace("\r", "")
             .replace("\n", " ")
         )
-        
+
     def thread_test(self):
         try:
             self.serial.write("thread version \r\n".encode())
@@ -68,7 +68,7 @@ def link_devices():
     for port in available_ports:
         if port.name[:3].lower() == "com":
             device = ot_device(port.name)
-            if device.thread_test():            
+            if device.thread_test():
                 devices.append(device)
 
 
@@ -77,7 +77,6 @@ def handle_command(command):
     response_dict = {}
     for device in devices:
         response = device.run_command(command)
-        # Add response to dictionary, where setup is {response: [device ids]}
         try:
             response_dict[response].append(device.port)
         except:
